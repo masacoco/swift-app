@@ -11,6 +11,7 @@ import UIKit
 struct OkashiItem: Identifiable {
     let id = UUID()
     let name: String
+    let comment: String
     let link: URL
     let image: URL
 }
@@ -21,10 +22,9 @@ class OkashiData: ObservableObject{
     struct ResultJson: Codable {
         struct Item: Codable {
                 let name: String?
+                let comment: String?
                 let url: URL?
                 let image: URL?
-//                let comment: String?
-//                let price: Int?
             }
             let item: [Item]?
         }
@@ -58,9 +58,10 @@ class OkashiData: ObservableObject{
                 
                 for item in items {
                     if let name = item.name,
+                       let comment = item.comment,
                        let link = item.url,
                        let image = item.image{
-                        let okashi = OkashiItem(name: name, link: link, image: image)
+                        let okashi = OkashiItem(name: name, comment: comment, link: link, image: image)
                         DispatchQueue.main.async{
                             self.okashiList.append(okashi)
                         }

@@ -12,6 +12,7 @@ struct ContentView: View {
     @State var inputText = ""
     
     var body: some View {
+        NavigationView{
         VStack {
             TextField("キーワード", text: $inputText, prompt: Text("キーワードを入力してください"))
                     .onSubmit {
@@ -22,7 +23,8 @@ struct ContentView: View {
                     .submitLabel(.search)
                     .padding()
             
-            List(okashiDataList.okashiList){ okashi in
+              List(okashiDataList.okashiList){ okashi in
+                  NavigationLink(destination: DetailView()){
                 HStack{
                     AsyncImage(url: okashi.image){ image in
                         image
@@ -34,7 +36,9 @@ struct ContentView: View {
                     }
                     Text(okashi.name)
                 }
+                  }
             }
+        }
         }
     }
 }
