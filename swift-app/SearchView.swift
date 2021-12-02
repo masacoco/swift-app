@@ -12,9 +12,8 @@ struct ContentView: View {
     @State var inputText = ""
     
     var body: some View {
-        NavigationView{
         VStack {
-            TextField("キーワード", text: $inputText, prompt: Text("キーワードを入力してください"))
+            TextField("キーワード", text: $inputText, prompt: Text("今日はなにの気分？"))
                     .onSubmit {
                         Task{
                             await okashiDataList.searchOkashi(keyword: inputText)
@@ -24,24 +23,24 @@ struct ContentView: View {
                     .padding()
             
               List(okashiDataList.okashiList){ okashi in
-                  NavigationLink(destination: DetailView()){
-                HStack{
-                    AsyncImage(url: okashi.image){ image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 40)
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    Text(okashi.name)
-                }
+                  VStack {
+                      Text(okashi.name)
+                          .font(.system(.title, design: .rounded))
+                        AsyncImage(url: okashi.image){ image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 160)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                      Text(okashi.comment.suffix(okashi.comment.count - 3).dropLast(5))
+                  }
+
                   }
             }
         }
         }
-    }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
